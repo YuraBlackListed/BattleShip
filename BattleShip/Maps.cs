@@ -6,8 +6,8 @@ namespace BattleShip
     {
         private const int boardSize = 10;
 
-        Cell[,] playerCells = new Cell[boardSize, boardSize];
-        Cell[,] enemyCells = new Cell[boardSize, boardSize];
+        public Cell[,] playerCells = new Cell[boardSize, boardSize];
+        public Cell[,] enemyCells = new Cell[boardSize, boardSize];
 
         public void Start()
         {

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BattleShip
 {
@@ -13,11 +9,13 @@ namespace BattleShip
         public bool IsShip { get; set; } = false;
 
         public bool IsAttacked { get; private set; } = false;
+        public bool IsBombed { get; private set; } = false;
 
         public bool OnPlayerSide { get; private set; } = false;
 
         private const char shipChar = 'O';
         private const char discoveredChar = '~';
+        private const char destroyedChar = '*';
         private const char destroyedShipChar = 'X';
 
         public Cell(char character)
@@ -40,6 +38,19 @@ namespace BattleShip
             {
                Character = discoveredChar;
             }
+        }
+
+        public void DestroyCell()
+        {
+            if (IsShip)
+            {
+                Character = destroyedShipChar;
+
+                IsShip = false;
+            }
+            else Character = destroyedChar;
+
+            IsBombed = true;
         }
         public void ShowShip()
         {

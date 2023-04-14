@@ -8,11 +8,12 @@ namespace BattleShip
         bool running = false;
 
         const int windiwWidth = 50;
-        const int windowHeight = 15;
+        const int windowHeight = 17;
 
         Maps maps = new();
 
-
+        private Player player;
+        private Player bot;
 
         public void Run()
         {
@@ -27,14 +28,21 @@ namespace BattleShip
 
         private void Start()
         {
+
             running = true;
             Console.CursorVisible = false;
             SetResolution(windiwWidth, windowHeight);
             maps.Start();
+
+
+            player = new Player(maps.playerCells, maps.enemyCells, false);
+            bot = new Player(maps.enemyCells, maps.playerCells, true);
+
+            player.hisTurn = true;
         }
         private void Update()
         {
-            
+            Turn();
         }
         private void Render()
         {
@@ -45,16 +53,22 @@ namespace BattleShip
         }
         private void CheckInput()
         {
-            ReadCoordinate('x');
-            ReadCoordinate('y');
+            player.CheckInput();
         }
-        private int ReadCoordinate(char vertexName)
+
+        private void Turn()
         {
-            Console.SetCursorPosition(0, windowHeight - 4);
-            Console.Write($"Type in {vertexName} coordinate: ");
-            int value = int.Parse(Console.ReadLine());
-            return value;
+            if(player.hisTurn)
+            {
+                player.Update();
+            }
+            else
+            {
+                bot.Update();
+                player.hisTurn = true;
+            }
         }
+
         private void SetResolution(int width, int height)
         {
             Console.WindowWidth = width;
