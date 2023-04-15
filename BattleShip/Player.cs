@@ -6,16 +6,14 @@ namespace BattleShip
     {
         public bool IsAI { get; private set; } = false;
 
-        private Cell[,] playerCells;
         private Cell[,] enemyCells;
 
         private bool hitLastTime = false;
 
         public bool hisTurn = false;
 
-        public Player(Cell[,] yourcells, Cell[,] enemycells, bool isAi)
+        public Player(Cell[,] enemycells, bool isAi)
         {
-            playerCells = yourcells;
             enemyCells = enemycells;
             IsAI = isAi;
         }
@@ -45,6 +43,17 @@ namespace BattleShip
             Console.Write($"Type in {vertexName} coordinate: ");
             Console.SetCursorPosition(21, 15);
             int value = int.Parse(Console.ReadLine());
+            while(value > 9)
+            {
+                Console.SetCursorPosition(0, 14);
+                Console.Write("Brouh is so stupid");
+
+                Console.SetCursorPosition(0, 15);
+                Console.Write($"Type in {vertexName} coordinate:              ");
+
+                Console.SetCursorPosition(21, 15);
+                value = int.Parse(Console.ReadLine());
+            }
             return value;
         }
 

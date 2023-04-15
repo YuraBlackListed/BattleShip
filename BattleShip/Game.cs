@@ -35,8 +35,8 @@ namespace BattleShip
             maps.Start();
 
 
-            player = new Player(maps.playerCells, maps.enemyCells, false);
-            bot = new Player(maps.enemyCells, maps.playerCells, true);
+            player = new Player(maps.enemyCells, false);
+            bot = new Player(maps.playerCells, true);
 
             player.hisTurn = true;
         }
