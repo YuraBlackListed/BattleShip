@@ -19,15 +19,28 @@ namespace BattleShip
             RevielShips(player1Cells);
         }
 
-        public void DrawPlayerField(int x, int y)
+        public void DrawPlayersFields(int x, int y, Player player1, Player player2)
         {
-            DrawFieldNums(x, y);
-            DrawCells(x, y, player1Cells);
-        }
-        public void DrawEnemyField(int x, int y)
-        {
-            DrawFieldNums(x, y);
-            DrawCells(x, y, player2Cells);
+            if(player1.hisTurn)
+            {
+                HideShips(player2.playerCells);
+                DrawFieldNums(x + 20, y);
+                DrawCells(x + 20, y, player2.playerCells);
+
+                RevielShips(player1.playerCells);
+                DrawFieldNums(x, y);
+                DrawCells(x, y, player1.playerCells);
+            }
+            else
+            {
+                HideShips(player1.playerCells);
+                DrawFieldNums(x, y);
+                DrawCells(x, y, player1.playerCells);
+
+                RevielShips(player2.playerCells);
+                DrawFieldNums(x + 20, y);
+                DrawCells(x + 20, y, player2.playerCells);
+            }
         }
 
         private void DrawFieldNums(int x, int y)
@@ -70,6 +83,19 @@ namespace BattleShip
                     if(cells[i, j] != null)
                     {
                         cells[i, j].ShowShip();
+                    }
+                }
+            }
+        }
+        private void HideShips(Cell[,] cells)
+        {
+            for (int i = 0; i < boardSize; i++)
+            {
+                for (int j = 0; j < boardSize; j++)
+                {
+                    if (cells[i, j] != null)
+                    {
+                        cells[i, j].HideShip();
                     }
                 }
             }

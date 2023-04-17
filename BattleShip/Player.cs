@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace BattleShip
 {
@@ -6,14 +7,16 @@ namespace BattleShip
     {
         public bool IsAI { get; private set; } = false;
 
+        public Cell[,] playerCells;
         private Cell[,] enemyCells;
 
         private bool hitLastTime = false;
 
         public bool hisTurn = false;
 
-        public Player(Cell[,] enemycells, bool isAi)
+        public Player(Cell[,] enemycells, Cell[,] playercells, bool isAi)
         {
+            playerCells = playercells;
             enemyCells = enemycells;
             IsAI = isAi;
         }
@@ -100,7 +103,7 @@ namespace BattleShip
 
             if (enemyCells[x, y].IsBombed)
             {
-                return;
+                BotShoot();
             }
 
             if (enemyCells[x, y].IsShip)
@@ -111,6 +114,8 @@ namespace BattleShip
             hitLastTime = enemyCells[x, y].IsShip;
 
             enemyCells[x, y].DestroyCell();
+
+            Thread.Sleep(1000);
         }
     }
 }

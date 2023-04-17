@@ -14,7 +14,7 @@ namespace BattleShip
         public bool OnPlayerSide { get; private set; } = false;
 
         private const char shipChar = '^';
-        private const char discoveredChar = '~';
+        private const char defaultChar = '~';
         private const char destroyedChar = '*';
         private const char destroyedShipChar = 'X';
 
@@ -27,17 +27,6 @@ namespace BattleShip
             IsShip = true;
 
             Character = shipChar;
-        }
-        public void Attack()
-        {
-            if(IsShip)
-            {
-                Character = shipChar;
-            }
-            else
-            {
-               Character = discoveredChar;
-            }
         }
 
         public void DestroyCell()
@@ -58,6 +47,10 @@ namespace BattleShip
             {
                 Character = shipChar;
             }
+        }
+        public void HideShip()
+        {
+            Character = defaultChar;
         }
     }
 }

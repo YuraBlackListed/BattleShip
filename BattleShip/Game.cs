@@ -28,15 +28,13 @@ namespace BattleShip
 
         private void Start()
         {
-
             running = true;
             Console.CursorVisible = false;
             SetResolution(windiwWidth, windowHeight);
             maps.Start();
 
-
-            player1 = new Player(maps.player2Cells, false);
-            player2 = new Player(maps.player1Cells, true);
+            player1 = new Player(maps.player2Cells, maps.player1Cells, false);
+            player2 = new Player(maps.player1Cells, maps.player2Cells, false);
 
             player1.hisTurn = true;
         }
@@ -47,13 +45,12 @@ namespace BattleShip
         private void Render()
         {
             Console.Clear();
-            maps.DrawPlayerField(0, 0);
-            maps.DrawEnemyField(20, 0);
-
+            maps.DrawPlayersFields(0, 0, player1, player2);
         }
         private void CheckInput()
         {
             player1.CheckInput();
+            player2.CheckInput();
         }
 
         private void Turn()
@@ -61,6 +58,8 @@ namespace BattleShip
             if(player1.hisTurn)
             {
                 player1.Update();
+                
+                player2.hisTurn = true;
             }
             else
             {
