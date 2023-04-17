@@ -50,7 +50,11 @@ namespace BattleShip
         }
         public void HideShip()
         {
-            Character = defaultChar;
+            if(Character != destroyedChar && Character != destroyedShipChar)
+            {
+                Character = defaultChar;
+            }
+            
         }
     }
 }

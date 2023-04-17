@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Threading;
 
 namespace BattleShip
 {
@@ -44,6 +44,7 @@ namespace BattleShip
         }
         private void Render()
         {
+            LoadCountdown();
             Console.Clear();
             maps.DrawPlayersFields(0, 0, player1, player2);
         }
@@ -72,6 +73,17 @@ namespace BattleShip
         {
             Console.WindowWidth = width;
             Console.WindowHeight = height;
+        }
+
+        private void LoadCountdown()
+        {
+            Console.Clear();
+            for (int i = 5; i > -1; i--)
+            {
+                Console.SetCursorPosition(windiwWidth / 2, windowHeight / 2);
+                Console.Write(i);
+                Thread.Sleep(1000);
+            }
         }
     }
 }
