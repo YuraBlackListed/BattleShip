@@ -40,19 +40,25 @@ namespace BattleShip
         private int ReadCoordinate(char vertexName)
         {
             Console.SetCursorPosition(0, 15);
-            Console.Write($"Type in {vertexName} coordinate: ");
+            Console.Write($"Type in {vertexName} coordinate:      ");
             Console.SetCursorPosition(21, 15);
-            int value = int.Parse(Console.ReadLine());
-            while(value > 9)
+
+            int value = 0;
+            string strValue = Console.ReadLine();
+
+            if (int.TryParse(strValue, out value) && value >= 0 && value <= 9)
             {
                 Console.SetCursorPosition(0, 14);
-                Console.Write("Brouh is so stupid");
+                Console.Write("                             ");
 
-                Console.SetCursorPosition(0, 15);
-                Console.Write($"Type in {vertexName} coordinate:              ");
+                return value;
+            }
+            else
+            {
+                Console.SetCursorPosition(0, 14);
+                Console.Write("Invalid coordinate, try again");
 
-                Console.SetCursorPosition(21, 15);
-                value = int.Parse(Console.ReadLine());
+                value = ReadCoordinate(vertexName);
             }
             return value;
         }
