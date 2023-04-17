@@ -33,8 +33,8 @@ namespace BattleShip
             SetResolution(windiwWidth, windowHeight);
             maps.Start();
 
-            player1 = new Player(maps.player2Cells, maps.player1Cells, false);
-            player2 = new Player(maps.player1Cells, maps.player2Cells, false);
+            player1 = new Player(maps.player2Cells, maps.player1Cells, true);
+            player2 = new Player(maps.player1Cells, maps.player2Cells, true);
 
             player1.hisTurn = true;
         }
@@ -44,7 +44,10 @@ namespace BattleShip
         }
         private void Render()
         {
-            LoadCountdown();
+            if(!player1.IsAI && !player2.IsAI)
+            {
+                LoadCountdown();
+            }
             Console.Clear();
             maps.DrawPlayersFields(0, 0, player1, player2);
         }
