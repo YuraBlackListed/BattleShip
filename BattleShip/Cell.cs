@@ -13,7 +13,7 @@ namespace BattleShip
 
         public bool OnPlayerSide { get; private set; } = false;
 
-        private const char shipChar = 'O';
+        private const char shipChar = '^';
         private const char discoveredChar = '~';
         private const char destroyedChar = '*';
         private const char destroyedShipChar = 'X';

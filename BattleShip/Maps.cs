@@ -6,28 +6,28 @@ namespace BattleShip
     {
         private const int boardSize = 10;
 
-        public Cell[,] playerCells = new Cell[boardSize, boardSize];
-        public Cell[,] enemyCells = new Cell[boardSize, boardSize];
+        public Cell[,] player1Cells = new Cell[boardSize, boardSize];
+        public Cell[,] player2Cells = new Cell[boardSize, boardSize];
 
         public void Start()
         {
-            GenerateField(playerCells);
-            GenerateField(enemyCells);
+            GenerateField(player1Cells);
+            GenerateField(player2Cells);
 
-            GenerateShips(playerCells);
-            GenerateShips(enemyCells);
-            RevielShips(playerCells);
+            GenerateShips(player1Cells);
+            GenerateShips(player2Cells);
+            RevielShips(player1Cells);
         }
 
-        public void DrawYourField(int x, int y)
+        public void DrawPlayerField(int x, int y)
         {
             DrawFieldNums(x, y);
-            DrawCells(x, y, playerCells);
+            DrawCells(x, y, player1Cells);
         }
         public void DrawEnemyField(int x, int y)
         {
             DrawFieldNums(x, y);
-            DrawCells(x, y, enemyCells);
+            DrawCells(x, y, player2Cells);
         }
 
         private void DrawFieldNums(int x, int y)
@@ -47,7 +47,7 @@ namespace BattleShip
             {
                 for (int j = 0; j < boardSize; j++)
                 {
-                    cells[j, i] = new Cell(' ');
+                    cells[j, i] = new Cell('~');
                 }
             }
         }

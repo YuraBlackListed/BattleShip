@@ -12,8 +12,8 @@ namespace BattleShip
 
         Maps maps = new();
 
-        private Player player;
-        private Player bot;
+        private Player player1;
+        private Player player2;
 
         public void Run()
         {
@@ -35,10 +35,10 @@ namespace BattleShip
             maps.Start();
 
 
-            player = new Player(maps.enemyCells, false);
-            bot = new Player(maps.playerCells, true);
+            player1 = new Player(maps.player2Cells, false);
+            player2 = new Player(maps.player1Cells, true);
 
-            player.hisTurn = true;
+            player1.hisTurn = true;
         }
         private void Update()
         {
@@ -47,25 +47,25 @@ namespace BattleShip
         private void Render()
         {
             Console.Clear();
-            maps.DrawYourField(0, 0);
+            maps.DrawPlayerField(0, 0);
             maps.DrawEnemyField(20, 0);
 
         }
         private void CheckInput()
         {
-            player.CheckInput();
+            player1.CheckInput();
         }
 
         private void Turn()
         {
-            if(player.hisTurn)
+            if(player1.hisTurn)
             {
-                player.Update();
+                player1.Update();
             }
             else
             {
-                bot.Update();
-                player.hisTurn = true;
+                player2.Update();
+                player1.hisTurn = true;
             }
         }
 
