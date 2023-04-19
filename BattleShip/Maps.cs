@@ -24,23 +24,18 @@ namespace BattleShip
             if(player1.hisTurn)
             {
                 HideShips(player2.playerCells);
-                DrawFieldNums(x + 20, y);
-                DrawCells(x + 20, y, player2.playerCells);
-
                 RevielShips(player1.playerCells);
-                DrawFieldNums(x, y);
-                DrawCells(x, y, player1.playerCells);
             }
             else
             {
                 HideShips(player1.playerCells);
-                DrawFieldNums(x, y);
-                DrawCells(x, y, player1.playerCells);
-
                 RevielShips(player2.playerCells);
-                DrawFieldNums(x + 20, y);
-                DrawCells(x + 20, y, player2.playerCells);
             }
+
+            DrawFieldNums(x, y);
+            DrawFieldNums(x + 20, y);
+            DrawCells(x, y, player1.playerCells);
+            DrawCells(x + 20, y, player2.playerCells);
         }
 
         private void DrawFieldNums(int x, int y)

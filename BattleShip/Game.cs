@@ -10,7 +10,7 @@ namespace BattleShip
         const int windiwWidth = 50;
         const int windowHeight = 17;
 
-        Maps maps = new();
+        private Maps maps = new();
 
         private Player player1;
         private Player player2;

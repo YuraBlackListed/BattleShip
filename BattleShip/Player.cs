@@ -115,7 +115,7 @@ namespace BattleShip
 
             enemyCells[x, y].DestroyCell();
 
-            Thread.Sleep(1000);
+            Thread.Sleep(1500);
         }
     }
 }
