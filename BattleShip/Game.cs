@@ -100,7 +100,7 @@ namespace BattleShip
 
             int value = 0;
 
-            if (int.TryParse(id, out value) && value >= 0 && value <= 9)
+            if (int.TryParse(id, out value) && value >= 1 && value <= 3)
             {
                 Console.SetCursorPosition(0, 14);
                 Console.Write("                             ");
