@@ -62,8 +62,7 @@ namespace BattleShip
         }
         private void CheckInput()
         {
-            player1.CheckInput();
-            player2.CheckInput();
+            
         }
 
         private void Turn()
@@ -129,21 +128,16 @@ namespace BattleShip
         }
         private void SetGameMode(int value)
         {
-            switch (value)
+            (bool firstAI, bool secondAI) = value switch
             {
-                case 1:
-                    player1 = new Player(maps.player2Cells, maps.player1Cells, false);
-                    player2 = new Player(maps.player1Cells, maps.player2Cells, false);
-                    break;
-                case 2:
-                    player1 = new Player(maps.player2Cells, maps.player1Cells, false);
-                    player2 = new Player(maps.player1Cells, maps.player2Cells, true);
-                    break;
-                case 3:
-                    player1 = new Player(maps.player2Cells, maps.player1Cells, true);
-                    player2 = new Player(maps.player1Cells, maps.player2Cells, true);
-                    break;
-            }
+                1 =>(false, false),
+                2 =>(false, true),
+                3 =>(true, true),
+            };
+
+            player1 = new Player(maps.player2Cells, maps.player1Cells, firstAI);
+            player2 = new Player(maps.player1Cells, maps.player2Cells, secondAI);
+
             player1.hisTurn = true;
         }
     }
