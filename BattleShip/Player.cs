@@ -70,10 +70,9 @@ namespace BattleShip
 
         private void Shoot()
         {
-            (int x, int y) = IsAI ? BotShoot() : PlayerShoot();
+            (int x, int y) = (0, 0);
             do
             {
-                CheckInput();
                 (x, y) = IsAI ? BotShoot() : PlayerShoot();
             } while (enemyCells[x, y].IsBombed);
 
@@ -90,6 +89,7 @@ namespace BattleShip
         }
         private (int, int) PlayerShoot()
         {
+            CheckInput();
             return lastCoords;
         }
         private (int, int) BotShoot()
