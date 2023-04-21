@@ -21,14 +21,23 @@ namespace BattleShip
 
         public void DrawPlayersFields(int x, int y, Player player1, Player player2)
         {
-            if(player1.hisTurn)
+            if (player1.hisTurn && player2.IsAI)
             {
                 HideShips(player2.playerCells);
                 RevielShips(player1.playerCells);
             }
-            else
+            else if (player2.hisTurn && !player1.IsAI && !player2.IsAI)
             {
                 HideShips(player1.playerCells);
+                RevielShips(player2.playerCells);
+            }
+            else if (player2.hisTurn && !player1.IsAI && player2.IsAI)
+            {
+                
+            }
+            else 
+            {
+                RevielShips(player1.playerCells);
                 RevielShips(player2.playerCells);
             }
 

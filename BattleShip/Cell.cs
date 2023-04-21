@@ -15,8 +15,8 @@ namespace BattleShip
 
         private const char shipChar = '^';
         private const char defaultChar = '~';
-        private const char destroyedChar = '*';
-        private const char destroyedShipChar = 'X';
+        private const char destroyedChar = '+';
+        private const char destroyedShipChar = 'x';
 
         public Cell(char character)
         {

@@ -5,6 +5,8 @@ namespace BattleShip
 {
     class Player
     {
+        public int score { get; private set; } = 0;
+
         public bool IsAI { get; private set; } = false;
 
         public Cell[,] playerCells;
@@ -68,24 +70,13 @@ namespace BattleShip
 
         private void Shoot()
         {
-            if(!IsAI)
+            (int x, int y) = IsAI ? BotShoot() : PlayerShoot();
+            do
             {
-                PlayerShoot();
-            }
-            else
-            {
-                BotShoot();
-            }
-        }
-        private void PlayerShoot()
-        {
-            int x = lastCoords.Item1;
-            int y = lastCoords.Item2;
+                CheckInput();
+                (x, y) = IsAI ? BotShoot() : PlayerShoot();
+            } while (enemyCells[x, y].IsBombed);
 
-            if (enemyCells[x, y].IsBombed)
-            {
-                return;
-            }
 
             if (enemyCells[x, y].IsShip)
             {
@@ -95,27 +86,21 @@ namespace BattleShip
             hitLastTime = enemyCells[x, y].IsShip;
 
             enemyCells[x, y].DestroyCell();
+            score++;
         }
-        private void BotShoot()
+        private (int, int) PlayerShoot()
+        {
+            return lastCoords;
+        }
+        private (int, int) BotShoot()
         {
             int x = ramndom.Next(0, enemyCells.Length / 10);
             int y = ramndom.Next(0, enemyCells.Length / 10);
-
-            if (enemyCells[x, y].IsBombed)
-            {
-                BotShoot();
-            }
-
-            if (enemyCells[x, y].IsShip)
-            {
-                enemyCells[x, y].ShowShip();
-            }
-
-            hitLastTime = enemyCells[x, y].IsShip;
-
-            enemyCells[x, y].DestroyCell();
+            (int, int) randomCoordinates = (x, y);
 
             Thread.Sleep(1500);
+
+            return randomCoordinates;
         }
     }
 }

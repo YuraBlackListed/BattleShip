@@ -15,6 +15,10 @@ namespace BattleShip
         private Player player1;
         private Player player2;
 
+        private Player winner;
+
+        private int round = 1;
+
         public void Run()
         {
             Start();
@@ -38,7 +42,14 @@ namespace BattleShip
         }
         private void Update()
         {
-            Turn();
+            if(round <= 3)
+            {
+                Turn();
+            }
+            else
+            {
+                
+            }
         }
         private void Render()
         {
