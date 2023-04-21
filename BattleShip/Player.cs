@@ -6,6 +6,7 @@ namespace BattleShip
     class Player
     {
         public int score { get; private set; } = 0;
+        public int roundWins { get; private set; } = 0;
 
         public bool IsAI { get; private set; } = false;
 
@@ -80,12 +81,13 @@ namespace BattleShip
             if (enemyCells[x, y].IsShip)
             {
                 enemyCells[x, y].ShowShip();
+                score++;
             }
 
             hitLastTime = enemyCells[x, y].IsShip;
 
             enemyCells[x, y].DestroyCell();
-            score++;
+            
         }
         private (int, int) PlayerShoot()
         {
@@ -101,6 +103,12 @@ namespace BattleShip
             Thread.Sleep(1500);
 
             return randomCoordinates;
+        }
+
+        public void Won()
+        {
+            score = 0;
+            roundWins++;
         }
     }
 }

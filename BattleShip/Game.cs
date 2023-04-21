@@ -10,14 +10,11 @@ namespace BattleShip
         const int windiwWidth = 50;
         const int windowHeight = 17;
 
-        private Maps maps = new();
-
         private Player player1;
         private Player player2;
+        Round round;
 
-        private Player winner;
-
-        private int round = 1;
+        private int roundCount = 1;
 
         public void Run()
         {
@@ -36,15 +33,18 @@ namespace BattleShip
             running = true;
             Console.CursorVisible = false;
             SetResolution(windiwWidth, windowHeight);
-            maps.Start();
 
-            SetGameMode(GetGameMode());
+            round = new Round();
+            
+            SetGameMode(ReceiveGameMode());
+            round.player1 = player1;
+            round.player2 = player2;
         }
         private void Update()
         {
-            if(round <= 3)
+            if(roundCount <= 3)
             {
-                Turn();
+                round.Turn();
             }
             else
             {
@@ -58,26 +58,14 @@ namespace BattleShip
                 LoadCountdown();
             }
             Console.Clear();
-            maps.DrawPlayersFields(0, 0, player1, player2);
+            round.maps.DrawPlayersFields(0, 0, player1, player2);
+
+            round.WritePlayerTurn(player1.hisTurn);
+            round.WritePlayerScore();
         }
         private void CheckInput()
         {
             
-        }
-
-        private void Turn()
-        {
-            if(player1.hisTurn)
-            {
-                player1.Update();
-                
-                player2.hisTurn = true;
-            }
-            else
-            {
-                player2.Update();
-                player1.hisTurn = true;
-            }
         }
 
         private void SetResolution(int width, int height)
@@ -103,27 +91,29 @@ namespace BattleShip
             Console.WriteLine("Type 2 to play PvAI");
             Console.WriteLine("Type 3 to play AIvAI");
         }
-        private int GetGameMode()
+        private int ReceiveGameMode()
         {
             LoadMenu();
-            string id = Console.ReadLine();
-
-            int value = 0;
-
-            if (int.TryParse(id, out value) && value >= 1 && value <= 3)
+            int value;
+            while (true)
             {
-                Console.SetCursorPosition(0, 14);
-                Console.Write("                             ");
-                Console.SetCursorPosition(0, 0);
-            }
-            else
-            {
-                Console.SetCursorPosition(0, 14);
-                Console.Write("Invalid coordinate, try again");
-                Console.SetCursorPosition(0, 0);
+                string input = Console.ReadLine();
 
-                value = GetGameMode();
+                if (int.TryParse(input, out value) && value >= 1 && value <= 3)
+                {
+                    Console.SetCursorPosition(0, 14);
+                    Console.Write("                             ");
+                    Console.SetCursorPosition(0, 3);
+                    break;
+                }
+                else
+                {
+                    Console.SetCursorPosition(0, 14);
+                    Console.Write("Invalid index, try again");
+                    Console.SetCursorPosition(0, 3);
+                }
             }
+
             return value;
         }
         private void SetGameMode(int value)
@@ -135,10 +125,11 @@ namespace BattleShip
                 3 =>(true, true),
             };
 
-            player1 = new Player(maps.player2Cells, maps.player1Cells, firstAI);
-            player2 = new Player(maps.player1Cells, maps.player2Cells, secondAI);
+            player1 = new Player(round.maps.player2Cells, round.maps.player1Cells, firstAI);
+            player2 = new Player(round.maps.player1Cells, round.maps.player2Cells, secondAI);
 
             player1.hisTurn = true;
         }
+
     }
 }
