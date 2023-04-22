@@ -12,9 +12,15 @@ namespace BattleShip
 
         private Player player1;
         private Player player2;
+        private int winnerIndex;
+
         Round round;
 
         private int roundCount = 1;
+
+        private bool gameFinished = false;
+
+        private int gameIndex;
 
         public void Run()
         {
@@ -35,8 +41,8 @@ namespace BattleShip
             SetResolution(windiwWidth, windowHeight);
 
             round = new Round();
-            
-            SetGameMode(ReceiveGameMode());
+            gameIndex = ReceiveGameMode();
+            SetGameMode(gameIndex);
             round.player1 = player1;
             round.player2 = player2;
         }
@@ -44,11 +50,23 @@ namespace BattleShip
         {
             if(roundCount <= 3)
             {
-                round.Turn();
+                if (round.SomebodyWon())
+                {
+                    roundCount = 0;
+                    round = new();
+                    SetGameMode(gameIndex);
+                    round.player1 = player1;
+                    round.player2 = player2;
+                }
+                else
+                {
+                    round.Turn();
+                }
             }
             else
             {
-                
+                winnerIndex = CalculateWinner();
+                gameFinished = true;
             }
         }
         private void Render()
@@ -62,10 +80,17 @@ namespace BattleShip
 
             round.WritePlayerTurn(player1.hisTurn);
             round.WritePlayerScore();
+
+            if(gameFinished)
+            {
+                Console.Clear();
+                Console.SetCursorPosition(windiwWidth / 2, windowHeight / 2);
+                Console.WriteLine($"Player {winnerIndex} won");
+            }
         }
         private void CheckInput()
         {
-            
+            //I messed up, I'd better use this
         }
 
         private void SetResolution(int width, int height)
@@ -130,6 +155,18 @@ namespace BattleShip
 
             player1.hisTurn = true;
         }
+        private int CalculateWinner()
+        {
+            if(player1.roundWins >= 3)
+            {
+                return 1;
+            }
+            else if(player2.roundWins >= 3)
+            {
+                return 2;
+            }
 
+            return 1;
+        }
     }
 }

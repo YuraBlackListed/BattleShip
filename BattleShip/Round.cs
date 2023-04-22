@@ -14,6 +14,11 @@ namespace BattleShip
             maps.Start(); 
         }
 
+        public void RecreateMaps()
+        {
+            maps.Start();
+        }
+
         public void Turn()
         {
             Player currentPlayer = CalculateCurrentPlayer();
@@ -58,6 +63,20 @@ namespace BattleShip
             Console.SetCursorPosition(20, 12);
             Console.Write($"Player 2 score: {player2.score}");
             
+        }
+        public bool SomebodyWon()
+        {
+            if(player1.score >= 6)
+            {
+                player1.Won();
+                return true;
+            }
+            else if(player2.score >= 6)
+            {
+                player2.Won();
+                return true;
+            }
+            return false;
         }
     }
 }
