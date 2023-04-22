@@ -16,19 +16,26 @@ namespace BattleShip
 
         public void Turn()
         {
-
-            if (player1.hisTurn)
-            {
-                player1.Update();
-
-                player2.hisTurn = true;
-            }
-            else
-            {
-                player2.Update();
-                player1.hisTurn = true;
-            }
+            Player currentPlayer = CalculateCurrentPlayer();
+            currentPlayer.Update();
+            currentPlayer.hisTurn = false;
         }
+
+        private Player CalculateCurrentPlayer()
+        {
+            if(player1.hisTurn)
+            {
+                player2.hisTurn = true;
+                return player1;
+            }
+            else if(player2.hisTurn)
+            {
+                player1.hisTurn = true;
+                return player2;
+            }
+            return player2;
+        }
+
         public void WritePlayerTurn(bool player1turn)
         {
             Console.SetCursorPosition(11, 13);
