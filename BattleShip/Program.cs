@@ -6,8 +6,8 @@ namespace BattleShip
     {
         static void Main(string[] args)
         {
-            GameLoop program = new();
-            program.Run();
+            GameLoop gameLoop = new();
+            gameLoop.Run();
         }
     }
 }
