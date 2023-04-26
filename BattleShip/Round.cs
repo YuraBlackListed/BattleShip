@@ -4,13 +4,17 @@ namespace BattleShip
 {
     class Round
     {
-        public Maps maps = new();
+        public Maps maps;
 
         public Player player1;
         public Player player2;
 
-        public Round()
+        private int shipsCount;
+
+        public Round(int _shipsCount)
         {
+            shipsCount = _shipsCount;
+            maps = new Maps(shipsCount);
             maps.Start(); 
         }
 
@@ -66,12 +70,12 @@ namespace BattleShip
         }
         public bool SomebodyWon()
         {
-            if(player1.score >= 6)
+            if(player1.score >= shipsCount)
             {
                 player1.Won();
                 return true;
             }
-            else if(player2.score >= 6)
+            else if(player2.score >= shipsCount)
             {
                 player2.Won();
                 return true;

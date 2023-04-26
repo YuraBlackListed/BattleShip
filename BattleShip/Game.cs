@@ -1,62 +1,35 @@
 ﻿using System;
-using System.Threading;
-
 namespace BattleShip
 {
     class Game
     {
-        bool running = false;
-
-        const int windiwWidth = 50;
-        const int windowHeight = 17;
-
-        private Player player1;
-        private Player player2;
-        private int winnerIndex;
-
-        Round round;
+        public Player player1 { get; private set; }
+        public Player player2 { get; private set; }
+        public Round round { get; private set; }
 
         private int roundCount = 1;
 
-        private bool gameFinished = false;
+        public bool Finished { get; private set; } = false;
 
-        private int gameIndex;
+        private int gameModeIndex;
 
-        public void Run()
+        public int winnerIndex { get; private set; }
+
+        int shipsCount = 7;
+
+        public Game()
         {
-            Start();
-            while(running)
-            {
-                Render();
-                CheckInput();
-                Update();
-            }
+            gameModeIndex = ReceiveGameMode();
+            StartNewRound();
         }
 
-        private void Start()
+        public void Update()
         {
-            
-            running = true;
-            Console.CursorVisible = false;
-            SetResolution(windiwWidth, windowHeight);
-
-            round = new Round();
-            gameIndex = ReceiveGameMode();
-            SetGameMode(gameIndex);
-            round.player1 = player1;
-            round.player2 = player2;
-        }
-        private void Update()
-        {
-            if(roundCount <= 3)
+            if (roundCount <= 3)
             {
                 if (round.SomebodyWon())
                 {
-                    roundCount = 0;
-                    round = new();
-                    SetGameMode(gameIndex);
-                    round.player1 = player1;
-                    round.player2 = player2;
+                    StartNewRound();
                 }
                 else
                 {
@@ -66,50 +39,9 @@ namespace BattleShip
             else
             {
                 winnerIndex = CalculateWinner();
-                gameFinished = true;
+                Finished = true;
             }
         }
-        private void Render()
-        {
-            if(!player1.IsAI && !player2.IsAI)
-            {
-                LoadCountdown();
-            }
-            Console.Clear();
-            round.maps.DrawPlayersFields(0, 0, player1, player2);
-
-            round.WritePlayerTurn(player1.hisTurn);
-            round.WritePlayerScore();
-
-            if(gameFinished)
-            {
-                Console.Clear();
-                Console.SetCursorPosition(windiwWidth / 2, windowHeight / 2);
-                Console.WriteLine($"Player {winnerIndex} won");
-            }
-        }
-        private void CheckInput()
-        {
-            //I messed up, I'd better use this
-        }
-
-        private void SetResolution(int width, int height)
-        {
-            Console.WindowWidth = width;
-            Console.WindowHeight = height;
-        }
-
-        private void LoadCountdown()
-        {
-            Console.Clear();
-            for (int i = 5; i > -1; i--)
-            {
-                Console.SetCursorPosition(windiwWidth / 2, windowHeight / 2);
-                Console.Write(i);
-                Thread.Sleep(1000);
-            }
-        }
-
         private void LoadMenu()
         {
             Console.WriteLine("Type 1 to play PvP");
@@ -145,9 +77,9 @@ namespace BattleShip
         {
             (bool firstAI, bool secondAI) = value switch
             {
-                1 =>(false, false),
-                2 =>(false, true),
-                3 =>(true, true),
+                1 => (false, false),
+                2 => (false, true),
+                3 => (true, true),
             };
 
             player1 = new Player(round.maps.player2Cells, round.maps.player1Cells, firstAI);
@@ -157,16 +89,24 @@ namespace BattleShip
         }
         private int CalculateWinner()
         {
-            if(player1.roundWins >= 3)
+            if (player1.roundWins >= 3)
             {
                 return 1;
             }
-            else if(player2.roundWins >= 3)
+            else if (player2.roundWins >= 3)
             {
                 return 2;
             }
 
             return 1;
+        }
+        private void StartNewRound()
+        {
+            roundCount = 0;
+            round = new Round(shipsCount);
+            SetGameMode(gameModeIndex);
+            round.player1 = player1;
+            round.player2 = player2;
         }
     }
 }

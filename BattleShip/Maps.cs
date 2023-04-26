@@ -9,6 +9,12 @@ namespace BattleShip
         public Cell[,] player1Cells = new Cell[boardSize, boardSize];
         public Cell[,] player2Cells = new Cell[boardSize, boardSize];
 
+        int shipsCount;
+        public Maps(int _shipsCount)
+        {
+            shipsCount = _shipsCount;
+        }
+
         public void Start()
         {
             GenerateField(player1Cells);
@@ -79,7 +85,7 @@ namespace BattleShip
         public void GenerateShips(Cell[,] cells)
         {
             Random random = new();
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < shipsCount; i++)
             {
                 int x = random.Next(0, boardSize);
                 int y = random.Next(0, boardSize);
